@@ -3,7 +3,7 @@ NLPRandomSentenceLearn
 SentenceLearn generates a alignment-based language model from a document by mapping individual words and two-word phrases to their successors in the text from which the model is learning. It can then generate random sentences using the lexicon and the grammar learned from the language model.
 
 API
-===
+---
 There are 3 important files included - successor_model.py, process.py, and sentence_gen.py. The latter 2 serve as the way to interact with the successor model, and successor_model contains the source code for the creation of the model and the generation of random sentence from that model. 
 1. process.py
 Before running this file, any text can be put into a text file and placed in the same directory as process.py. 
@@ -21,7 +21,7 @@ c. generate_sentence_length(int k)
 
 
 Description of the model
-========================
+------------------------
 
 I built a successor table with each word being mapped into a dictionary that maps any word to all of the words that have followed that word in the learning text. From there, the random sentence generator picks randomly from any words that start a sentence (words that follow a period) and for every word, it randomly picks the next word from the list of successors of the current word. This model selects using a weighted probability because the table also keeps track of how many times a word has succeeded another word. This process continues until a period. I called the successors table a unigram table.
 
@@ -33,7 +33,7 @@ I integrated the bigram set with the unigram set and set a constant by which I i
 
 In terms of data structures, I used a dictionary to map words to their successors, and for each successor word, I put it in a 2-element list with its weight. Therefore, the primary data structure is a dictionary with strings as keys and a list of 2-element lists. 
 Random Notes
-=============
+------------
 There are a few more tweaks in the model:
 1. I increased the factor by which I preferred the bigram results if I am looking for a successor of a "stop" word (of, in, etc.) because context is especially useful in those contexts.
 2. I eliminated quotation marks and dashes, which were creating bizzarre sentences.
