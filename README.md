@@ -14,13 +14,15 @@ When run from STDin, process.py will ask for the filename as the input in the Te
 After running process.py, there should be a .ml file that contains the model stored as a file. When running sentence_gen, it will request a filename from STDin in the same way as process.py. Then, it will request a number of random sentences to generate, and it will output those sentences (as a quick note: it takes some time to read in the file (around 3-4 seconds on my machine) and then some time to run through the model and compute the probabilities. For 10 sentences generated from the text of the Mary Shelley novel, Frankenstein, it took about 8 seconds total.
 
 3. successor_model.py
-Public Methods:
-a. random_sent()
-	Generates a random sentence
-b. generate_k_sentences(int k)
-	Generates k random sentences.
-c. generate_sentence_length(int k)
-	Generates a sentence of length k
+
+	Public Methods:
+	
+	a. random_sent() - Generates a random sentence
+	
+	b. generate_k_sentences(int k) - Generates k random sentences.
+	
+	c. generate_sentence_length(int k) - Generates a sentence of length k
+
 
 
 Description of the model
