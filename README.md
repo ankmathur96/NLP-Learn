@@ -12,6 +12,7 @@ There are 3 important files included - successor_model.py, process.py, and sente
 	When run from STDin, process.py will ask for the filename as the input in the Terminal, construct the word model, and save that as a file in the same directory. Another pre-processed text file for the original text file will also appear in the same directory.
 
 2. <b>sentence_gen.py</b>
+
 	After running process.py, there should be a .ml file that contains the model stored as a file. When running sentence_gen, it will request a filename from STDin in the same way as process.py. Then, it will request a number of random sentences to generate, and it will output those sentences (as a quick note: it takes some time to read in the file (around 3-4 seconds on my machine) and then some time to run through the model and compute the probabilities. For 10 sentences generated from the text of the Mary Shelley novel, Frankenstein, it took about 8 seconds total.
 
 3. <b>successor_model.py</b>
