@@ -13,6 +13,7 @@ class SuccessorModel(object):
         self.tokens = get_tokens(self.path)
         self.unigram_table = build_unigram_table(self.tokens)
         self.bigram_table = build_bigram_table(self.tokens)
+
 ########################
 #####Public Methods#####
 ########################
@@ -31,41 +32,43 @@ class SuccessorModel(object):
         while len(sentence.split())-1 != k:
             sentence = self.random_sent()
         return sentence
+
 ###############################
 #####Sentence Construction#####
 ###############################
-    def create_options_with_bigram(self, bigram_table, prevKey, wordsWithWeights):
+    def create_options_with_bigram(self, bigram_table, prev_key, words_with_weights):
         factor = SuccessorModel.BIGRAM_MULTIPLICATIVE_FACTOR
-        onePrev = prevKey[1]
-        if onePrev in SuccessorModel.stop_words:
+        one_prev = prev_key[1]
+        if one_prev in SuccessorModel.stop_words:
             factor = SuccessorModel.STOP_WORDS_FACTOR
-        biGramMappings = list(bigram_table[prevKey])
-        for each_word in biGramMappings:
+        bigram_mappings = list(bigram_table[prev_key])
+        for each_word in bigram_mappings:
             each_word[1] *= factor
-        wordsWithWeights = deep_merge(wordsWithWeights, biGramMappings)
-        return wordsWithWeights
+        words_with_weights = deep_merge(words_with_weights, bigram_mappings)
+        return words_with_weights
 
     def construct_sent(self, word, unigram_table, bigram_table, limit = None):
         result, wordcounter = '', 0
-        twoPrev, onePrev = '' , ''
-        prevKey = (twoPrev, onePrev)
+        two_prev, one_prev = '' , ''
+        prev_key = (two_prev, one_prev)
         while not check_end(word):
             result += word + ' '
-            wordsWithWeights = list(unigram_table[word])
-            twoPrev, onePrev = onePrev, word
-            prevKey = (twoPrev, onePrev)
-            if (onePrev != '' and twoPrev != ''):
-                if prevKey in bigram_table:
-                    wordsWithWeights = self.create_options_with_bigram(bigram_table, prevKey, wordsWithWeights)
+            words_with_weights = list(unigram_table[word])
+            two_prev, one_prev = one_prev, word
+            prev_key = (two_prev, one_prev)
+            if (one_prev != '' and two_prev != ''):
+                if prev_key in bigram_table:
+                    words_with_weights = self.create_options_with_bigram(bigram_table, prev_key, words_with_weights)
             if (limit is not None) and (wordcounter == limit):
-                end = check_contains_end(wordsWithWeights)
+                end = check_contains_end(words_with_weights)
                 if (end != ''):
                     return result + end
                 else:
                     return ''
-            word = find_weighted_random(wordsWithWeights)
+            word = find_weighted_random(words_with_weights)
             wordcounter += 1
         return result + word
+
 ##################
 #####Learning#####
 ################## 
@@ -73,25 +76,26 @@ def build_bigram_table(tokens):
     if len(tokens) < 3:
         return {}
     table = {}
-    twoPrev, onePrev = tokens[0], tokens[1]
-    prevKey = (twoPrev, onePrev)
+    two_prev, one_prev = tokens[0], tokens[1]
+    prev_key = (two_prev, one_prev)
     for i in range(2, len(tokens)):
         word = tokens[i]
         # only make bigrams when you arne't mapping across sentences (when there's a period)
-        if not (check_end(prevKey[0]) or check_end(prevKey[1])):
-            if prevKey not in table:
-                table[prevKey] = [[word, 1]]
+        if not (check_end(prev_key[0]) or check_end(prev_key[1])):
+            if prev_key not in table:
+                table[prev_key] = [[word, 1]]
             else:
                 duplicate = False
-                for successor in table[prevKey]:
+                for successor in table[prev_key]:
                     if successor[0] == word:
                         successor[1] += 1
                         duplicate = True
                 if (not duplicate):
-                    table[prevKey].append([word, 1])
-        twoPrev, onePrev = onePrev, word
-        prevKey = (twoPrev, onePrev)
+                    table[prev_key].append([word, 1])
+        two_prev, one_prev = one_prev, word
+        prev_key = (two_prev, one_prev)
     return table
+
 def build_unigram_table(tokens):
     table = {}
     prev = '.'
@@ -121,7 +125,7 @@ def process(filename):
     processed = ''
     path = filename+'.txt'
     if (os.path.exists(path)):
-        preprocessedfile = open(path, 'r', encoding='utf-8')
+        preprocessed_file = open(path, 'r', encoding='utf-8')
         text = preprocessedfile.read()
         for c in text:
             if c in ['.','!', '?']:
@@ -130,14 +134,15 @@ def process(filename):
                 continue
             else:
                 processed += c
-        newPath = filename+'_processed.txt'
-        processedfile = open(newPath, 'w', encoding='utf-8')
-        processedfile.write(processed)
-        preprocessedfile.close()
-        processedfile.close()
-        return newPath
+        new_path = filename+'_processed.txt'
+        processed_file = open(new_path, 'w', encoding='utf-8')
+        processed_file.write(processed)
+        preprocessed_file.close()
+        processed_file.close()
+        return new_path
     else:
         return ''
+
 def check_contains_end(l):
     for punct in ['.', '!', '?']:
         for subl in l:
@@ -176,6 +181,7 @@ def find_weighted_random(wordDict):
         if (r >= start_range and r <= end_range):
             return elements[i]
         start_range = end_range
+
 # Deep merges 2 lists of 2-element lists to remove duplicates
 # keys. Outputs a dictionary that has a sum of the keys (non-destructive) 
 # Complexity: O(n^2)
