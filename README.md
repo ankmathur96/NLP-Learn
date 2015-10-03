@@ -5,19 +5,26 @@ SentenceLearn generates a alignment-based language model from a document by mapp
 API
 ---
 There are 3 important files included - successor_model.py, process.py, and sentence_gen.py. The latter 2 serve as the way to interact with the successor model, and successor_model contains the source code for the creation of the model and the generation of random sentence from that model. 
-1. process.py
-Before running this file, any text can be put into a text file and placed in the same directory as process.py. 
-When run from STDin, process.py will ask for the filename as the input in the Terminal, construct the word model, and save that as a file in the same directory. Another pre-processed text file for the original text file will also appear in the same directory.
-2. sentence_gen.py
-After running process.py, there should be a .ml file that contains the model stored as a file. When running sentence_gen, it will request a filename from STDin in the same way as process.py. Then, it will request a number of random sentences to generate, and it will output those sentences (as a quick note: it takes some time to read in the file (around 3-4 seconds on my machine) and then some time to run through the model and compute the probabilities. For 10 sentences generated from the text of the Mary Shelley novel, Frankenstein, it took about 8 seconds total.
-3. successor_model.py
-Public Methods:
-a. random_sent()
-	Generates a random sentence
-b. generate_k_sentences(int k)
-	Generates k random sentences.
-c. generate_sentence_length(int k)
-	Generates a sentence of length k
+
+1. <b>process.py</b>
+
+	Before running this file, any text can be put into a text file and placed in the same directory as process.py. 
+	When run from STDin, process.py will ask for the filename as the input in the Terminal, construct the word model, and save that as a file in the same directory. Another pre-processed text file for the original text file will also appear in the same directory.
+
+2. <b>sentence_gen.py</b>
+
+	After running process.py, there should be a .ml file that contains the model stored as a file. When running sentence_gen, it will request a filename from STDin in the same way as process.py. Then, it will request a number of random sentences to generate, and it will output those sentences (as a quick note: it takes some time to read in the file (around 3-4 seconds on my machine) and then some time to run through the model and compute the probabilities. For 10 sentences generated from the text of the Mary Shelley novel, Frankenstein, it took about 8 seconds total.
+
+3. <b>successor_model.py</b>
+
+	<b>Public Methods:</b>
+	
+	a. random_sent() - Generates a random sentence
+	
+	b. generate_k_sentences(int k) - Generates k random sentences.
+	
+	c. generate_sentence_length(int k) - Generates a sentence of length k
+
 
 
 Description of the model
@@ -35,7 +42,10 @@ In terms of data structures, I used a dictionary to map words to their successor
 Random Notes
 ------------
 There are a few more tweaks in the model:
+
 1. I increased the factor by which I preferred the bigram results if I am looking for a successor of a "stop" word (of, in, etc.) because context is especially useful in those contexts.
+
 2. I eliminated quotation marks and dashes, which were creating bizzarre sentences.
+
 3. I kept tweaking the value for the factor by which I prefer bigrams to generate better sentences until I found a happy middle. 
 4. I throw out random sentences that are longer than 15 words (these tend to be sentences that started well intentioned but devolved).
