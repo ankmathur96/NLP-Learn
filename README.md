@@ -1,4 +1,4 @@
-NLPRandomSentenceLearn
+NLP-Learn
 =============
 SentenceLearn generates a alignment-based language model from a document by mapping individual words and two-word phrases to their successors in the text from which the model is learning. It can then generate random sentences using the lexicon and the grammar learned from the language model.
 
