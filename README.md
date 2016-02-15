@@ -34,7 +34,7 @@ I built a successor table with each word being mapped into a dictionary that map
 
 This model is actually surprisingly successful, although not perfect. Frequently, the sentences produced by this model lose their "train of thought" or start devolving into strange and incorrect sentences. I felt like, in general, the problem was a lack of context.
 
-Therefore, I also constructed a bigram model, which maps two-word phrases to successors. Then, when generating the random sentences, the previous 2 words can be taken into context, and, if we also search the bigram set, then we can find a successfor the sentence that might make more sense. 
+Therefore, I also constructed a bigram model, which maps two-word phrases to successors. Then, when generating the random sentences, the previous 2 words can be taken into context, and, if we also search the bigram set, then we can find a successor the sentence that might make more sense. 
 
 I integrated the bigram set with the unigram set and set a constant by which I increased the probabilistic weight of a bigram result. 
 
