@@ -126,7 +126,7 @@ def process(filename):
     path = filename+'.txt'
     if (os.path.exists(path)):
         preprocessed_file = open(path, 'r', encoding='utf-8')
-        text = preprocessedfile.read()
+        text = preprocessed_file.read()
         for c in text:
             if c in ['.','!', '?']:
                 processed += ' ' + c + ' '
