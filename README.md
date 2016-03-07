@@ -4,7 +4,13 @@ SentenceLearn generates a alignment-based language model from a document by mapp
 
 API
 ---
-There are 3 important files included - successor_model.py, process.py, and sentence_gen.py. The latter 2 serve as the way to interact with the successor model, and successor_model contains the source code for the creation of the model and the generation of random sentence from that model. 
+To get up and running, simply place the text to train on in a file and then run:
+
+<code>python3 sentence_gen.py [training file name]</code>
+
+This code will construct a language model (or load one if it already exists) and will allow you to generate random sentences of a given length.
+
+There are 3 pieces of code that are significant:
 
 1. <b>process.py</b>
 
@@ -13,7 +19,7 @@ There are 3 important files included - successor_model.py, process.py, and sente
 
 2. <b>sentence_gen.py</b>
 
-	After running process.py, there should be a .ml file that contains the model stored as a file. When running sentence_gen, it will request a filename from STDin in the same way as process.py. Then, it will request a number of random sentences to generate, and it will output those sentences (as a quick note: it takes some time to read in the file (around 3-4 seconds on my machine) and then some time to run through the model and compute the probabilities. For 10 sentences generated from the text of the Mary Shelley novel, Frankenstein, it took about 8 seconds total.
+	This code will generate a language model (or load a pre-computed one) and then enter a loop where it generates random sentences of a given length that the user can input from STDin. 
 
 3. <b>successor_model.py</b>
 
