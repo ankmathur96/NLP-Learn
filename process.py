@@ -1,6 +1,6 @@
 from successor_model import SuccessorModel
 import pickle
-print('Type in the filename to create the language model')
+print('Type in the name of the file (without the file extension) from which we are learning the language model')
 filename = str(input())
 model = SuccessorModel(filename)
 

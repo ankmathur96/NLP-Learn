@@ -3,7 +3,8 @@ import random
 import pickle
 from urllib.request import urlopen
 class SuccessorModel(object):
-
+    SENTENCE_LOWER_BOUND = 6
+    SENTENCE_UPPER_BOUND = 15
     stop_words = ['of', 'a', 'an', 'the', 'by', 'for', 'of', 'from']
     end_punctuation = ['.', '!', '?']
     BIGRAM_MULTIPLICATIVE_FACTOR = 5
@@ -123,7 +124,7 @@ def get_tokens(path):
 
 def process(filename):
     processed = ''
-    path = filename+'.txt'
+    path = filename
     if (os.path.exists(path)):
         preprocessed_file = open(path, 'r', encoding='utf-8')
         text = preprocessed_file.read()
@@ -134,7 +135,7 @@ def process(filename):
                 continue
             else:
                 processed += c
-        new_path = filename+'_processed.txt'
+        new_path = filename+'.processed'
         processed_file = open(new_path, 'w', encoding='utf-8')
         processed_file.write(processed)
         preprocessed_file.close()
